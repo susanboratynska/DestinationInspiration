@@ -1,3 +1,13 @@
+
+.form__destination{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#container__google{
+    padding-right: 0;
+}
+
 #container__googlemaps {
     width: 95%;
     height: 500px;
@@ -9,7 +19,7 @@
 /* SRC: https://developers.google.com/maps/documentation/javascript/examples/places-searchbox */
 
 
-#search__maps{
+#pac-input{
     height: 40px;
     display: table-cell;
     position: relative;
@@ -22,6 +32,25 @@
     border-top-right-radius: 2px;
     background-clip: padding-box;
     box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+    min-width: 65px;
+    border-left: 0px;
+    margin-top: 10px;
+    border: none;
+}
+
+#submit__destination{
+    height: 40px;
+    display: table-cell;
+    position: relative;
+    color: rgb(86, 86, 86);
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 14px;
+    background-color: lightgray;
+    padding: 0px 17px;
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+    background-clip: padding-box;
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.1);
     min-width: 65px;
     border-left: 0px;
     margin-top: 10px;
@@ -102,15 +131,40 @@
 /* ---------- Yelp Results ---------- */
 #container__yelp {
     display: inline-block;
-    width: 40%;
+    width: 45%;
 }
 
 .yelp__result {
-    border: 1px solid lightgray;
     border-radius: 2px;
+    height: 100px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-.yelp__images{
-    padding: 0;
+.yelp__contentbox {
+    padding-left: 12px;
+}
 
+.yelp__title {
+    font-size:14px;
+    font-weight: bold;
+}
+
+.yelp__image_container {
+    padding: 0;
+    height: 100px;
+    width: 100px;
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+}
+
+img {
+    vertical-align: middle;
+    border-style: none;
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+}
+
+.font_12 {
+    font-size: 12px;
 }

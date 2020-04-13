@@ -1,42 +1,44 @@
 <?php
+
 session_start();
 
-require_once 'Yelp.php';
+require_once 'vendor/autoload.php';
+
+
+$options = array(
+    'apiHost' => 'api.yelp.com',
+    'apiKey' => 'yWHPoBGMrZDEzX8sVYy5O14ujPsRlJfrADx3p8QbTLlxGWWudCVggIlHOuRmW9AFlJNRG-hvDCFBLs8uTEXlxpCT6qBLCBdqnaJYMUiWQwwED7S9mDmWZFWElFeSXnYx'
+);
+
+$client = \Stevenmaguire\Yelp\ClientFactory::makeWith(
+    $options,
+    \Stevenmaguire\Yelp\Version::THREE
+);
+
+
 
 $url = 'https://api.yelp.com/v3/businesses/search';
 $api_key = 'yWHPoBGMrZDEzX8sVYy5O14ujPsRlJfrADx3p8QbTLlxGWWudCVggIlHOuRmW9AFlJNRG-hvDCFBLs8uTEXlxpCT6qBLCBdqnaJYMUiWQwwED7S9mDmWZFWElFeSXnYx';
 
 $destinationsearch = "";
 $destinationsearch = json_encode($_GET['pac-input']);
+// print_r($destinationsearch);
 
 
 $parameters = array (
     'term' => 'restaurants',
     'location' => json_encode($_GET['pac-input']),
-//    'radius' => 10000,
+    'radius' => 10000,
     'categories' => 'restaurants',
     'sort_by' => 'best_match',
-    'limit' => '5'
-//    'price' => '1,2,3',
-//    'attributes' => 'hot_and_new'
+    'limit' => '5',
+    'price' => '1,2,3',
+    'attributes' => 'hot_and_new'
 );
 
-print_r(json_encode($_GET['pac-input']));
-
-$options = array ('http' =>
-    array (
-        'header' =>  'Authorization: Bearer ' . $api_key,
-        'method' => 'GET'
-        //'content' => json_encode($data)
-    )
-);
-
-$str = stream_context_create($options);
-$result = json_decode(file_get_contents($url, false, $str));
-print_r($result);
-
-$y = new Yelp();
-$yelp = $y->yelpSearchResults($destinationsearch);
+$results = $client->getBusinessesSearchResults($parameters);
+ print_r($results);
+// print_r(json_encode($_GET['pac-input']));
 
 
 ?>
@@ -59,74 +61,50 @@ $yelp = $y->yelpSearchResults($destinationsearch);
     <body>
     <h1>Travel Destination Trends</h1>
 
+
     <div class="form__destination">
-
-        <form method="Get" action="index.php">
+        <form method="GET" action="index.php">
             <input id="pac-input"  name="pac-input" type="text" placeholder="Where do you want to go?">
-            <input type="submit" name="submit__destination" id="submit__destination" value="Take Me There"/>
+            <input id="submit__destination" name="submit__destination" type="submit" value="Take Me There"/>
         </form>
-
-
-
-<!--            <input id="search__maps" class="controls" type="text"  size="55"  placeholder="Where do you want to go?">-->
-
-
-
-
     </div>
+
     <div class="row">
 
-        <div class="col-12 col-md-8">
-
-<!--            <input id="search__maps" class="controls" type="text" size="55" placeholder="Where do you want to go?">-->
-
-            <div id="container__googlemaps">
-
-            </div>
+        <div class="col-12 col-md-8" id="container__google">
+            <div id="container__googlemaps"></div>
         </div>
         <!-- Included libraries=places for autocomplete search; Enabled places  -->
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCA51SWNimZff6jD0kPbF95HRXocqTE1k4&callback=initializeMapJQuery&libraries=places&callback=initAutocomplete">
         </script>
 
-
-        <div id="container__pinterest"></div>
-
         <div id="container__yelp" class="col-6 col-md-4">
+        <?php
+        foreach ($results->businesses as $result){
+        ?>
             <div class="yelp__result">
-                <h4 class="yelp__title">Restaurant Name</h4>
                 <div class="row">
-                    <img class="col-4 yelp__images" src="images/pai.jpg">
-                    <div class="col-8">
-                        <div class="yelp__rating">Ratings</div>
-                        <div class="yelp__price">Price</div>
-                        <div class="yelp__description">Description</div>
+                    <div class="yelp__image_container">
+                        <img class="yelp__images" src="<?= $result->image_url; ?>">
+                    </div>
+                    <div class="col-8 yelp__contentbox">
+                        <div class="yelp__title"><a href="<?= $result->url ; ?>" target="_blank"><?= $result->name ; ?></a></div>
+                        <div class="yelp__rating font_12">Rating: <?= $result->rating ; ?></div>
+                        <div class="yelp__price font_12"><?= $result->price ; ?></div>
+                        <div class="yelp__address1 font_12"><?= $result->location->display_address[0] ; ?></div>
+                        <div class="yelp__address2 font_12"><?= $result->location->display_address[1] ; ?></div>
+                        <!-- <div class="yelp__url font_12"><a href="<?= $result->url ; ?>" target="_blank">Website</a></div> -->
                     </div>
                 </div>
             </div>
-            <div class="yelp__result">
-                <h4 class="yelp__title">Restaurant Name</h4>
-                <div class="row">
-                    <img class="col-4 yelp__images" src="images/pai.jpg">
-                    <div class="col-8">
-                        <div class="yelp__rating">Ratings</div>
-                        <div class="yelp__price">Price</div>
-                        <div class="yelp__description">Description</div>
-                    </div>
-                </div>
-            </div>
-            <div class="yelp__result">
-                <h4 class="yelp__title">Restaurant Name</h4>
-                <div class="row">
-                    <img class="col-4 yelp__images" src="images/pai.jpg">
-                    <div class="col-8">
-                        <div class="yelp__rating">Ratings</div>
-                        <div class="yelp__price">Price</div>
-                        <div class="yelp__description">Description</div>
-                    </div>
-                </div>
-            </div>
+        <?php
+        }
+        ?>
         </div>
+    </div>
+    <div class="row">
 
+        <div id="google__places_photo"></div>
     </div>
     </body>
 </html>

@@ -1,6 +1,8 @@
 #container__googlemaps {
-    width: 100%;
+    width: 95%;
     height: 500px;
+    display: inline-block;
+    margin-left: 2.5%;
 }
 
 /* PURPOSE: Places search box */
@@ -95,4 +97,20 @@
 }
 #target {
     width: 345px;
+}
+
+/* ---------- Yelp Results ---------- */
+#container__yelp {
+    display: inline-block;
+    width: 40%;
+}
+
+.yelp__result {
+    border: 1px solid lightgray;
+    border-radius: 2px;
+}
+
+.yelp__images{
+    padding: 0;
+
 }

@@ -2,12 +2,6 @@
 // SRC: https://developers.google.com/maps/documentation/javascript/examples/places-searchbox
 
 function initAutocomplete(listener) {
-    // var map = new google.maps.Map(document.getElementById('container__googlemaps'), {
-    //     center: {lat: -33.8688, lng: 151.2195},
-    //     zoom: 13,
-    //     mapTypeId: 'roadmap'
-    // });
-
 
 
     var input = document.getElementById('pac-input');
@@ -16,23 +10,22 @@ function initAutocomplete(listener) {
 
 
 
-
-
     var toronto = new google.maps.LatLng(43.640, -79.394);
 
-    var infowindow = new google.maps.InfoWindow();
+    // var infowindow = new google.maps.InfoWindow();
 
-    var map = new google.maps.Map(
-        document.getElementById('container__googlemaps'), {center: toronto, zoom: 15});
+    var map = new google.maps.Map(document.getElementById('container__googlemaps'), {center: toronto, zoom: 15});
 
     // console.log(findGetParameter('pac-input'));
     var request = {
         query: findGetParameter('pac-input'),
-        fields: ['name', 'geometry'],
+        fields: ['name', 'geometry', 'photos'],
     };
+
 
     var service = new google.maps.places.PlacesService(map);
 
+    // Emptry array for markers:
     var markers = [];
 
     // For each place, get the icon, name and location.
@@ -41,9 +34,6 @@ function initAutocomplete(listener) {
     service.findPlaceFromQuery(request, function(results, status) {
         console.log(results);
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-            // for (var i = 0; i < results.length; i++) {
-            //     createMarker(results[i]);
-            // }
             results.forEach(function(place) {
                 if (!place.geometry) {
                     console.log("Returned place contains no geometry");
@@ -71,6 +61,19 @@ function initAutocomplete(listener) {
                 } else {
                     bounds.extend(place.geometry.location);
                 }
+
+                console.log(place);
+                // Get photos from place.geometry:
+                var photoplacesarray = place.photos;
+                // console.log(photoplacesarray[0].getUrl());
+
+                console.log(photoplacesarray.length);
+
+                for(var i = 0 ; i <= photoplacesarray.length; i++){
+                    console.log(photoplacesarray[i].getUrl());
+                    document.getElementById('google__results_image').setAttribute('src', photoplacesarray[i].getUrl());
+                }
+
             });
 
             map.setCenter(results[0].geometry.location);

@@ -37,7 +37,7 @@ $parameters = array (
 );
 
 $results = $client->getBusinessesSearchResults($parameters);
- print_r($results);
+// print_r($results);
 // print_r(json_encode($_GET['pac-input']));
 
 
@@ -93,7 +93,6 @@ $results = $client->getBusinessesSearchResults($parameters);
                         <div class="yelp__price font_12"><?= $result->price ; ?></div>
                         <div class="yelp__address1 font_12"><?= $result->location->display_address[0] ; ?></div>
                         <div class="yelp__address2 font_12"><?= $result->location->display_address[1] ; ?></div>
-                        <!-- <div class="yelp__url font_12"><a href="<?= $result->url ; ?>" target="_blank">Website</a></div> -->
                     </div>
                 </div>
             </div>
@@ -103,9 +102,15 @@ $results = $client->getBusinessesSearchResults($parameters);
         </div>
     </div>
     <div class="row">
-
         <div id="google__places_photo"></div>
+        <img id="google__results_image" >
+<!--        <script async defer src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CnRtAAAATLZNl354RwP_9UKbQ_5Psy40texXePv4oAlgP4qNEkdIrkyse7rPXYGd9D_Uj1rVsQdWT4oRz4QrYAJNpFX7rzqqMlZw2h2E2y5IKMUZ7ouD_SlcHxYq1yL4KbKUv3qtWgTK0A6QbGh87GB3sscrHRIQiG2RrmU_jF4tENr9wGS_YxoUSSDrYjWmrNfeEHSGSc3FyhNLlBU&key=--><?//=$api_key?><!--"></script>-->
+        <script async defer src="https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJN1t_tDeuEmsRUsoyG83frY4&fields=photo,name,rating,formatted_phone_number&key=<?=$api_key?>"></script>
     </div>
+    <div id="googleplace">
+        https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=yWHPoBGMrZDEzX8sVYy5O14ujPsRlJfrADx3p8QbTLlxGWWudCVggIlHOuRmW9AFlJNRG-hvDCFBLs8uTEXlxpCT6qBLCBdqnaJYMUiWQwwED7S9mDmWZFWElFeSXnYx
+    </div>
+
     </body>
 </html>
 

@@ -36,7 +36,7 @@ $parameters = array (
     'sort_by' => 'best_match',
     'limit' => '5',
     'price' => '1,2,3',
-    'attributes' => 'hot_and_new'
+    'attributes' => 'restaurant'
 );
 
 $results = $client->getBusinessesSearchResults($parameters);
@@ -122,7 +122,43 @@ $results = $client->getBusinessesSearchResults($parameters);
                         </div>
                         <div class="col-8 yelp__contentbox">
                             <div class="yelp__title"><a href="<?= $result->url ; ?>" target="_blank"><?= $result->name ; ?></a></div>
-                            <div class="yelp__rating font_11">Rating: <?= $result->rating ; ?></div>
+                            <div class="yelp__rating font_11">
+                            <?php
+                            $i = 0;
+
+//                            while($result->rating > 0 ){
+//                                if ($result->rating == 0.5){
+//                                    echo "<span class='rating half-star'></span>";
+//                                } else {
+//                                    echo "<span class='rating star'></span>";
+//                                }
+//                                $result->rating = $result->rating - 1;
+//                                echo "i = " . ++$i;
+//                            }
+
+
+                            // Print out star ratings based on the 5 star rating provided by YELP:
+                            for ($i = 0; $i < 5; ++$i){
+                                if ($result->rating > 0.5){
+                                    echo "<span class='rating star'></span>";
+                                    // echo "value i = " . $i . "</br> value result = " . $result->rating . "</br>" ;
+                                } else if ($result->rating == 0.5) {
+                                    echo "<span class='rating half-star'></span>";
+                                    // echo "value i = " . $i . "</br> value result = " . $result->rating . "</br>" ;
+                                } else if ($result->rating < -1 ){
+                                    echo "<span class='rating unstar'></span>";
+                                    // echo "value i = " . $i . "</br> value result = " . $result->rating . "</br>" ;
+                                } else {
+                                    echo "<span class='rating unstar'></span>";
+                                }
+                                $result->rating = $result->rating - 1;
+                            }
+
+                            ?>
+
+                            </div>
+
+
                             <div class="yelp__price font_11"><?= $result->price ; ?></div>
                             <div class="yelp__address1 font_11"><?= $result->location->display_address[0] ; ?></div>
                             <div class="yelp__address2 font_11"><?= $result->location->display_address[1] ; ?></div>
@@ -139,6 +175,10 @@ $results = $client->getBusinessesSearchResults($parameters);
             <div id="google__places_photo"></div>
         </div>
     </div>
+
+    <footer id="footer">
+        <nav id="footer-nav" class="page-wrapper"></nav>
+    </footer>
     </body>
 </html>
 

@@ -1,13 +1,14 @@
 
 // SRC: https://developers.google.com/maps/documentation/javascript/examples/places-searchbox
-
+jQuery(document).ready(function($){
+    //console.log('Page has loaded');
+});
 function initAutocomplete(listener) {
 
 
     var input = document.getElementById('pac-input');
 
     var autocomplete = new google.maps.places.Autocomplete(input);
-
 
 
     var toronto = new google.maps.LatLng(43.640, -79.394);
@@ -62,39 +63,25 @@ var google__places_photo = document.getElementById('google__places_photo');
 // Iterate through the results:
     function callback(results, status) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
-            console.log(results);
+           //  console.log(results);
 
-            console.log(results.photos);
+            // console.log(results.photos);
 
             // Places details returns 10 photos max:
             for (var i = 0; i <= results.photos.length ; i++) {
 
-                console.log(results.photos[i].getUrl());
+                // console.log(results.photos[i].getUrl());
 
-                google__places_photo.innerHTML += '<img class="google__photos" src=' + results.photos[i].getUrl() +'>';
+
+                // First check if results.photos[i] exists then call method getUrl();
+                if(results.photos[i]) {
+                    google__places_photo.innerHTML += '<img class="google__photos" src=' + results.photos[i].getUrl() +'>';
+
+                }
 
             }
         }
     }
-
-
-
-
-// // Get photos from place.geometry:
-// var placesarray = place.photos;
-// // console.log(placesarray[0].getUrl());
-//
-// console.log(placesarray.length);
-//
-// for(var i = 0 ; i <= placesarray.length; i++){
-//     console.log(placesarray[i].getUrl());
-//     document.getElementById('google__results_image').setAttribute('src', placesarray[i].getUrl());
-// }
-//
-//
-
-
-
 
 
 
@@ -109,13 +96,14 @@ var google__places_photo = document.getElementById('google__places_photo');
     var bounds = new google.maps.LatLngBounds();
 
     service.findPlaceFromQuery(request, function(results, status) {
-        console.log(results);
+        // console.log(results);
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             results.forEach(function(place) {
                 if (!place.geometry) {
                     console.log("Returned place contains no geometry");
                    // return;
                 }
+                console.log(place);
                 var icon = {
                     url: place.icon,
                     size: new google.maps.Size(71, 71),
@@ -139,20 +127,6 @@ var google__places_photo = document.getElementById('google__places_photo');
                     bounds.extend(place.geometry.location);
                 }
 
-                //
-                // console.log(place);
-                //
-                // // Get photos from place.geometry:
-                // var photoplacesarray = place.photos;
-                // // console.log(photoplacesarray[0].getUrl());
-                //
-                // console.log(photoplacesarray.length);
-                //
-                // for(var i = 0 ; i <= photoplacesarray.length; i++){
-                //     console.log(photoplacesarray[i].getUrl());
-                //     document.getElementById('google__results_image').setAttribute('src', photoplacesarray[i].getUrl());
-                // }
-
             });
 
             map.setCenter(results[0].geometry.location);
@@ -162,10 +136,6 @@ var google__places_photo = document.getElementById('google__places_photo');
 
 
 }
-
-
-
-
 
 
 

@@ -5,6 +5,10 @@ p {
     font-size: 14px;
 }
 
+p:last-child {
+    margin-bottom: 0;
+}
+
 h2 {
     font-family: 'Montserrat', sans-serif !important;
     color: #383838 !important;
@@ -223,7 +227,7 @@ header {
 }
 
 #google__places_photo {
-    max-height: 350px;
+    height: 350px;
 }
 
 .google__photos {
@@ -260,6 +264,7 @@ header {
 
 #footer {
     background-color: #383838;
-    height: 3.5em;
+    height: 4.25em;
+    color: #F5F5F5;
 
 }

@@ -24,6 +24,7 @@ $destinationsearch = "";
 
 if (isset($_GET['pac-input'])){
     $destinationsearch = json_encode($_GET['pac-input']);
+    // print_r($destinationsearch);
 }
 
 
@@ -39,7 +40,9 @@ $parameters = array (
     'attributes' => 'restaurant'
 );
 
-$results = $client->getBusinessesSearchResults($parameters);
+if (isset($_GET['pac-input'])) {
+    $results = $client->getBusinessesSearchResults($parameters);
+}
 // print_r($results);
 // print_r(json_encode($_GET['pac-input']));
 
@@ -86,11 +89,10 @@ $results = $client->getBusinessesSearchResults($parameters);
         </div>
 
 
-
     <div class="page-wrapper">
-        <div class="form__destination">
-            <form method="GET" action="index.php">
-                <input id="pac-input"  name="pac-input" type="text" placeholder="Where do you want to go?">
+        <div class="form__destination" id="form__destination">
+            <form method="GET" action="index.php#form__destination">
+                <input id="pac-input"  name="pac-input" type="text" placeholder="Where do you want to go?" value="<?php if(isset($_GET['pac-input'])){echo $_GET['pac-input'];} ?>">
                 <input id="autocompletevalue_placeid"  name="location_placeid" type="hidden" >
                 <input id="submit__destination" name="submit__destination" type="submit" value="Take Me There"/>
             </form>
@@ -107,77 +109,80 @@ $results = $client->getBusinessesSearchResults($parameters);
             </script>
 
             <div id="container__yelp" class="col-6 col-md-4">
-                <h2>Restaurants</h2>
+
             <?php
             // print_r($results);
             for ($i = 0; $i <4; $i++ ){
                 
             }
-            foreach ($results->businesses as $result){
-            ?>
-                <div class="yelp__result">
-                    <div class="row">
-                        <div class="yelp__image_container">
-                            <img class="yelp__images" src="<?= $result->image_url; ?>">
-                        </div>
-                        <div class="col-8 yelp__contentbox">
-                            <div class="yelp__title"><a href="<?= $result->url ; ?>" target="_blank"><?= $result->name ; ?></a></div>
-                            <div class="yelp__rating font_11">
-                            <?php
-                            $i = 0;
+            if (isset($_GET['pac-input'])){
+                echo "<h2>Restaurants</h2>";
+                foreach ($results->businesses as $result) {
+                    ?>
 
-//                            while($result->rating > 0 ){
-//                                if ($result->rating == 0.5){
-//                                    echo "<span class='rating half-star'></span>";
-//                                } else {
-//                                    echo "<span class='rating star'></span>";
-//                                }
-//                                $result->rating = $result->rating - 1;
-//                                echo "i = " . ++$i;
-//                            }
-
-
-                            // Print out star ratings based on the 5 star rating provided by YELP:
-                            for ($i = 0; $i < 5; ++$i){
-                                if ($result->rating > 0.5){
-                                    echo "<span class='rating star'></span>";
-                                    // echo "value i = " . $i . "</br> value result = " . $result->rating . "</br>" ;
-                                } else if ($result->rating == 0.5) {
-                                    echo "<span class='rating half-star'></span>";
-                                    // echo "value i = " . $i . "</br> value result = " . $result->rating . "</br>" ;
-                                } else if ($result->rating < -1 ){
-                                    echo "<span class='rating unstar'></span>";
-                                    // echo "value i = " . $i . "</br> value result = " . $result->rating . "</br>" ;
-                                } else {
-                                    echo "<span class='rating unstar'></span>";
-                                }
-                                $result->rating = $result->rating - 1;
-                            }
-
-                            ?>
-
+                    <div class="yelp__result">
+                        <div class="row">
+                            <div class="yelp__image_container">
+                                <img class="yelp__images" src="<?= $result->image_url; ?>">
                             </div>
+                            <div class="col-8 yelp__contentbox">
+                                <div class="yelp__title"><a href="<?= $result->url; ?>"
+                                                            target="_blank"><?= $result->name; ?></a></div>
+                                <div class="yelp__rating font_11">
+                                    <?php
+                                    $i = 0;
 
 
-                            <div class="yelp__price font_11"><?= $result->price ; ?></div>
-                            <div class="yelp__address1 font_11"><?= $result->location->display_address[0] ; ?></div>
-                            <div class="yelp__address2 font_11"><?= $result->location->display_address[1] ; ?></div>
+                                    // Print out star ratings based on the 5 star rating provided by YELP:
+                                    for ($i = 0; $i < 5; ++$i) {
+                                        if ($result->rating > 0.5) {
+                                            echo "<span class='rating star'></span>";
+                                            // echo "value i = " . $i . "</br> value result = " . $result->rating . "</br>" ;
+                                        } else if ($result->rating == 0.5) {
+                                            echo "<span class='rating half-star'></span>";
+                                            // echo "value i = " . $i . "</br> value result = " . $result->rating . "</br>" ;
+                                        } else if ($result->rating < -1) {
+                                            echo "<span class='rating unstar'></span>";
+                                            // echo "value i = " . $i . "</br> value result = " . $result->rating . "</br>" ;
+                                        } else {
+                                            echo "<span class='rating unstar'></span>";
+                                        }
+                                        $result->rating = $result->rating - 1;
+                                    }
+
+                                    ?>
+
+                                </div>
+
+                                <div class="yelp__price font_11"><?= $result->price; ?></div>
+                                <div class="yelp__address1 font_11"><?= $result->location->display_address[0]; ?></div>
+                                <div class="yelp__address2 font_11"><?= $result->location->display_address[1]; ?></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php
+                    <?php
+                }
             }
             ?>
             </div>
         </div>
         <div class="row">
-            <h2>Nearby Attractions</h2>
-            <div id="google__places_photo"></div>
+            <?php
+            if (isset($_GET['pac-input'])){
+            ?>
+                <h2>Nearby Attractions</h2>
+                <div id="google__places_photo"></div>
+            <?php
+            }
+            ?>
+
         </div>
     </div>
 
     <footer id="footer">
-        <nav id="footer-nav" class="page-wrapper"></nav>
+        <nav id="footer-nav" class="page-wrapper">
+            <p>&#169;SusanBoratynska</p>
+        </nav>
     </footer>
     </body>
 </html>

@@ -16,10 +16,6 @@ $client = \Stevenmaguire\Yelp\ClientFactory::makeWith(
 );
 
 
-
-$url = 'https://api.yelp.com/v3/businesses/search';
-$api_key = 'yWHPoBGMrZDEzX8sVYy5O14ujPsRlJfrADx3p8QbTLlxGWWudCVggIlHOuRmW9AFlJNRG-hvDCFBLs8uTEXlxpCT6qBLCBdqnaJYMUiWQwwED7S9mDmWZFWElFeSXnYx';
-
 $destinationsearch = "";
 
 if (isset($_GET['pac-input'])){

@@ -14,4 +14,5 @@ Destination Inspiration is a single-page interactive website that helps users fi
 SRC: https://github.com/stevenmaguire/yelp-php
 $ Scomposer require stevenmaguire/yelp-php
 
+## Screenshot
 ![Screenshot of layout](Layout_DestinationInspiration.png)

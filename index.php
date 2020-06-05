@@ -7,7 +7,7 @@ require_once 'vendor/autoload.php';
 
 $options = array(
     'apiHost' => 'api.yelp.com',
-    'apiKey' => 'yWHPoBGMrZDEzX8sVYy5O14ujPsRlJfrADx3p8QbTLlxGWWudCVggIlHOuRmW9AFlJNRG-hvDCFBLs8uTEXlxpCT6qBLCBdqnaJYMUiWQwwED7S9mDmWZFWElFeSXnYx'
+    'apiKey' => 'APIKEY'
 );
 
 $client = \Stevenmaguire\Yelp\ClientFactory::makeWith(
@@ -49,8 +49,6 @@ if (isset($_GET['pac-input'])) {
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>HTTP5203B - Assignment 3 - Susan Boratynska</title>
-
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -59,8 +57,8 @@ if (isset($_GET['pac-input'])) {
 
         <link rel="stylesheet" type="text/css" href="styles/styles.css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-        <link rel="icon" type="image/png" href="http://susanboratynska.com/wp-content/uploads/destinationinspiration-favicon.png">
+        
+         <link rel="icon" type="image/png" href="https://susanboratynska.com/wp-content/uploads/destinationinspiration-favicon.png">
 
         <title>Destination Inspiration</title>
     </head>
@@ -93,9 +91,10 @@ if (isset($_GET['pac-input'])) {
         <div class="form__destination" id="form__destination">
             <form method="GET" action="index.php#form__destination">
                 <input id="pac-input"  name="pac-input" type="text" placeholder="Where do you want to go?" value="<?php if(isset($_GET['pac-input'])){echo $_GET['pac-input'];} ?>">
-                <input id="autocompletevalue_placeid"  name="location_placeid" type="hidden" >
+                <input id="autocompletevalue_placeid"  name="location_placeid" type="hidden" required >
                 <input id="submit__destination" name="submit__destination" type="submit" value="Take Me There"/>
             </form>
+            <div id="form__destination_error"></div>
         </div>
 
         <div class="row" id="container__map_yelp">
@@ -105,7 +104,7 @@ if (isset($_GET['pac-input'])) {
                 <div id="container__googlemaps"></div>
             </div>
             <!-- Included libraries=places for autocomplete search; Enabled places  -->
-            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmWqyRsPhX5MvyF8R1vG_RV-CuAVNRg98&libraries=places&callback=initAutocomplete">
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key=ENTERKEY&libraries=places&callback=initAutocomplete">
             </script>
 
             <div id="container__yelp" class="col-6 col-md-4">

@@ -2,14 +2,42 @@
 // SRC: https://developers.google.com/maps/documentation/javascript/examples/places-searchbox
 jQuery(document).ready(function($){
     //console.log('Page has loaded');
-});
-function initAutocomplete(listener) {
 
+
+    // Variables:
+    var form__submit = $('#form__destination');
+    var form__destination_error = $('#form__destination_error');   
+
+
+    form__submit.submit(submit_form_destination);
+
+
+// Retrieve place_id from parameter:
+    var autocomplete_placeid = findGetParameter('location_placeid');
+    console.log(autocomplete_placeid);
+
+    
+
+    function submit_form_destination(event){
+
+        if (!$('#autocompletevalue_placeid').val()) {
+            form__destination_error.text('Please select a location from the autocomplete list.');
+            event.preventDefault();
+        } else {
+            form__destination_error.text('');
+        }
+    }
+
+});
+
+
+
+
+function initAutocomplete(listener) {
 
     var input = document.getElementById('pac-input');
 
     var autocomplete = new google.maps.places.Autocomplete(input);
-
 
     var toronto = new google.maps.LatLng(43.640, -79.394);
 
@@ -26,64 +54,17 @@ function initAutocomplete(listener) {
 
 
 
-
 // Obtain placeid value based on autocomplete event listener and store it in hidden fields of the form:
     google.maps.event.addListener(autocomplete, 'place_changed', function() {
         var place = autocomplete.getPlace();
-        document.getElementById('autocompletevalue_placeid').value = place.place_id;
+        var autocomplete_placeid = document.getElementById('autocompletevalue_placeid');
+        autocompletevalue_placeid.value = place.place_id;
+
         // document.getElementById('autocompletevalue_lat').value = place.geometry.location.lat();
         // document.getElementById('autocompletevalue_long').value = place.geometry.location.lng();
+        console.log(place);
         console.log(place.place_id);
     });
-
-
-// Retrieve lat/long values from get parameter:
-    // var locationlatlong = new google.maps.LatLng(findGetParameter('location__lat'), findGetParameter('location__long') );
-
-// Retrieve place_id from parameter:
-    var autocomplete_placeid = findGetParameter('location_placeid');
-    console.log(autocomplete_placeid);
-
-// Put the placeiD value in the request object:
-    var photorequest = {
-        placeId: autocomplete_placeid,
-        // radius: '1000',
-       fields: ['name', 'photos']
-    };
-
-// Create a new instance of PlacesService:
-    var service2 = new google.maps.places.PlacesService(map);
-
-
-// Find nearby results:
-    service2.getDetails(photorequest, callback);
-
-
-var google__places_photo = document.getElementById('google__places_photo');
-// Iterate through the results:
-    function callback(results, status) {
-        if (status == google.maps.places.PlacesServiceStatus.OK) {
-           //  console.log(results);
-
-            // console.log(results.photos);
-
-            // Places details returns 10 photos max:
-            for (var i = 0; i <= results.photos.length ; i++) {
-
-                // console.log(results.photos[i].getUrl());
-
-
-                // First check if results.photos[i] exists then call method getUrl();
-                if(results.photos[i]) {
-                    google__places_photo.innerHTML += '<img class="google__photos" src=' + results.photos[i].getUrl() +'>';
-
-                }
-
-            }
-        }
-    }
-
-
 
 
 
@@ -134,8 +115,33 @@ var google__places_photo = document.getElementById('google__places_photo');
     });
 
 
+    var autocomplete_placeid = findGetParameter('location_placeid');
+    console.log(autocomplete_placeid);
+
+    if (autocomplete_placeid) {
+        // Put the placeID value in the request object:
+        var photorequest = {
+            placeId: autocomplete_placeid,
+            fields: ['name', 'photos']
+        }
+
+        // Create a new instance of PlacesService:
+        var service2 = new google.maps.places.PlacesService(map);
+
+
+        // Find nearby results:
+        service2.getDetails(photorequest, callback);
+
+
+        var google__places_photo = document.getElementById('google__places_photo');
+
+    } 
+
+
 
 }
+
+
 
 
 
@@ -158,13 +164,28 @@ function findGetParameter(parameterName) {
 
 
 
+// Iterate through the results:
+    function callback(results, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+            console.log(results);
+
+             console.log(results.photos);
+
+            // Places details returns 10 photos max:
+            for (var i = 0; i <= results.photos.length ; i++) {
+
+                // console.log(results.photos[i].getUrl());
 
 
+                // First check if results.photos[i] exists then call method getUrl();
+                if(results.photos[i]) {
+                    google__places_photo.innerHTML += '<img class="google__photos" src=' + results.photos[i].getUrl() +'>';
 
+                }
 
-
-
-
+            }
+        }
+    }
 
 
 

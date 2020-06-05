@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Lora|Montserrat&display=swap');
 
-p {
+p, #form__destination_error {
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
 }
@@ -52,11 +52,16 @@ header {
     size: 1.5em;
 }
 
-.form__destination{
+.form__destination {
     margin-bottom: 20px;
 }
 
-#container__google{
+#form__destination_error {
+    padding: 10px 0 0 10px;
+    color: red;
+}
+
+#container__google {
     padding-right: 0;
 }
 
@@ -70,7 +75,7 @@ header {
 /* SRC: https://developers.google.com/maps/documentation/javascript/examples/places-searchbox */
 
 
-#pac-input{
+#pac-input {
     height: 40px;
     display: table-cell;
     position: relative;

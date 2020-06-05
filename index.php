@@ -124,7 +124,7 @@ if (isset($_GET['pac-input'])) {
                             <div class="yelp__image_container">
                                 <img class="yelp__images" src="<?= $result->image_url; ?>">
                             </div>
-                            <div class="col-8 yelp__contentbox">
+                            <div class="yelp__contentbox col">
                                 <div class="yelp__title"><a href="<?= $result->url; ?>"
                                                             target="_blank"><?= $result->name; ?></a></div>
                                 <div class="yelp__rating font_11">

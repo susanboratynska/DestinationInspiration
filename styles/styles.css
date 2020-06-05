@@ -273,3 +273,20 @@ header {
     color: #F5F5F5;
 
 }
+
+/*----- Media Queries -----*/
+
+@media all and (max-width: 970px) {
+  .yelp__image_container { display: none; }
+  .yelp__address2 { display: none; }
+}
+
+@media all and (max-width: 767px) {
+  .yelp__image_container { display: block; }
+  .yelp__address2 { display: block; }
+  .col-6 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  #container__yelp { width: 100%; }
+}
